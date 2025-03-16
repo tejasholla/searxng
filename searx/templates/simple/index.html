@@ -1,8 +1,86 @@
 {% extends "simple/base.html" %}
 {% from 'simple/icons.html' import icon_big %}
+
 {% block content %}
 <div class="index">
-    <div class="title"><h1>Anveshana</h1></div>
-    {% include 'simple/simple_search.html' %}
+    <div class="welcome-container">
+        <h1 class="welcome-title">AnveshanA</h1>
+    </div>
+    <div class="search-container">
+        {% include 'simple/simple_search.html' %}
+    </div>
 </div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    /* General Styles */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .index {
+        text-align: center;
+        max-width: 600px;
+        width: 100%;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .welcome-container {
+        margin-bottom: 30px;
+    }
+
+    .welcome-title {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 10px;
+        animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .search-container {
+        animation: slideUp 1s ease-in-out;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .welcome-title {
+            font-size: 2rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 1rem;
+        }
+    }
+</style>
 {% endblock %}
