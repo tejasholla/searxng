@@ -2,7 +2,7 @@ general:
   # Debug mode, only for development. Is overwritten by ${SEARXNG_DEBUG}
   debug: false
   # displayed name
-  instance_name: "SearXNG"
+  instance_name: "Anveshana"
   # For example: https://example.com/privacy
   privacypolicy_url: false
   # use true to use your own donation page written in searx/info/en/donate.md
@@ -33,10 +33,10 @@ brand:
 search:
   # Filter results. 0: None, 1: Moderate, 2: Strict
   safe_search: 0
-  # Existing autocomplete backends: "360search", "baidu", "brave", "dbpedia", "duckduckgo", "google", "yandex",
-  # "mwmbl", "seznam", "sogou", "stract", "swisscows", "qwant", "wikipedia" -
+  # Existing autocomplete backends: "baidu", "brave", "dbpedia", "duckduckgo", "google", "yandex",
+  # "mwmbl", "seznam", "stract", "swisscows", "qwant", "wikipedia" -
   # leave blank to turn it off by default.
-  autocomplete: ""
+  autocomplete: "google"
   # minimun characters to type before autocompleter starts
   autocomplete_min: 4
   # backend for the favicon near URL in search results.
@@ -44,7 +44,7 @@ search:
   favicon_resolver: ""
   # Default search language - leave blank to detect from browser information or
   # use codes from 'languages.py'
-  default_lang: "auto"
+  default_lang: "en-US"
   # max_page: 0  # if engine supports paging, 0 means unlimited numbers of pages
   # Available languages
   # languages:
@@ -77,6 +77,7 @@ search:
   # formats: [html, csv, json, rss]
   formats:
     - html
+    - json
 
 server:
   # Is overwritten by ${SEARXNG_PORT} and ${SEARXNG_BIND_ADDRESS}
@@ -97,7 +98,7 @@ server:
 
   secret_key: "ultrasecretkey"  # Is overwritten by ${SEARXNG_SECRET}
   # Proxy image results through SearXNG. Is overwritten by ${SEARXNG_IMAGE_PROXY}
-  image_proxy: false
+  image_proxy: true
   # 1.0 and 1.1 are supported
   http_protocol_version: "1.0"
   # POST queries are more secure as they don't show up in history but may cause
@@ -118,20 +119,20 @@ ui:
   # Custom static path - leave it blank if you didn't change
   static_path: ""
   # Is overwritten by ${SEARXNG_STATIC_USE_HASH}.
-  static_use_hash: false
+  static_use_hash: true
   # Custom templates path - leave it blank if you didn't change
   templates_path: ""
   # query_in_title: When true, the result page's titles contains the query
   # it decreases the privacy, since the browser can records the page titles.
   query_in_title: false
   # infinite_scroll: When true, automatically loads the next page when scrolling to bottom of the current page.
-  infinite_scroll: false
+  infinite_scroll: true
   # ui theme
   default_theme: simple
   # center the results ?
   center_alignment: false
   # URL prefix of the internet archive, don't forget trailing slash (if needed).
-  # cache_url: "https://webcache.googleusercontent.com/search?q=cache:"
+  cache_url: "https://webcache.googleusercontent.com/search?q=cache:"
   # Default interface locale - leave blank to detect from browser information or
   # use codes from the 'locales' config section
   default_locale: ""
@@ -139,12 +140,12 @@ ui:
   # results_on_new_tab: false
   theme_args:
     # style of simple theme: auto, light, dark
-    simple_style: auto
+    simple_style: black
   # Perform search immediately if a category selected.
   # Disable to select multiple categories at once and start the search manually.
   search_on_category_select: true
   # Hotkeys: default or vim
-  hotkeys: default
+  hotkeys: vim
   # URL formatting: pretty, full or host
   url_formatting: pretty
 
@@ -184,7 +185,7 @@ ui:
 #
 outgoing:
   # default timeout in seconds, can be override by engine
-  request_timeout: 3.0
+  request_timeout: 5.0
   # the maximum timeout in seconds
   # max_request_timeout: 10.0
   # suffix of searx_useragent, could contain information like an email address
@@ -237,29 +238,30 @@ outgoing:
 # Comment or un-comment plugin to activate / deactivate by default.
 #   https://docs.searxng.org/admin/settings/settings_plugins.html
 #
-# enabled_plugins:
+enabled_plugins:
 #   # these plugins are enabled if nothing is configured ..
-#   - 'Basic Calculator'
-#   - 'Hash plugin'
-#   - 'Self Information'
-#   - 'Tracker URL remover'
-#   - 'Unit converter plugin'
-#   - 'Ahmia blacklist'  # activation depends on outgoing.using_tor_proxy
+   - 'Basic Calculator'
+   - 'Hash plugin'
+   - 'Self Information'
+   - 'Tracker URL remover'
+   - 'Unit converter plugin'
+   - 'Ahmia blacklist'  # activation depends on outgoing.using_tor_proxy
 #   # these plugins are disabled if nothing is configured ..
-#   - 'Hostnames plugin'  # see 'hostnames' configuration below
-#   - 'Open Access DOI rewrite'
-#   - 'Tor check plugin'
+   - 'Hostnames plugin'  # see 'hostnames' configuration below
+   - 'Open Access DOI rewrite'
+   - 'Tor check plugin'
 
 # Configuration of the "Hostnames plugin":
 #
-# hostnames:
-#   replace:
+hostnames:
+   replace:
 #     '(.*\.)?youtube\.com$': 'invidious.example.com'
 #     '(.*\.)?youtu\.be$': 'invidious.example.com'
 #     '(.*\.)?reddit\.com$': 'teddit.example.com'
 #     '(.*\.)?redd\.it$': 'teddit.example.com'
 #     '(www\.)?twitter\.com$': 'nitter.example.com'
-#   remove:
+   remove:
+    'www.msn.com': false
 #     - '(.*\.)?facebook.com$'
 #   low_priority:
 #     - '(.*\.)?google(\..*)?$'
@@ -337,25 +339,10 @@ categories_as_tabs:
   social media:
 
 engines:
-  - name: 360search
-    engine: 360search
-    shortcut: 360so
-    disabled: true
-
-  - name: 360search videos
-    engine: 360search_videos
-    shortcut: 360sov
-    disabled: true
-
   - name: 9gag
     engine: 9gag
     shortcut: 9g
-    disabled: true
-
-  - name: acfun
-    engine: acfun
-    shortcut: acf
-    disabled: true
+    disabled: false
 
   - name: adobe stock
     engine: adobe_stock
@@ -421,7 +408,7 @@ engines:
 
   - name: annas archive
     engine: annas_archive
-    disabled: true
+    disabled: false
     shortcut: aa
 
   # - name: annas articles
@@ -436,7 +423,7 @@ engines:
     engine: apkmirror
     timeout: 4.0
     shortcut: apkm
-    disabled: true
+    disabled: false
 
   - name: apple app store
     engine: apple_app_store
@@ -480,6 +467,7 @@ engines:
     engine: artic
     shortcut: arc
     timeout: 4.0
+    disabled: true
 
   - name: arxiv
     engine: arxiv
@@ -501,30 +489,10 @@ engines:
     shortcut: bc
     categories: music
 
-  - name: baidu
-    baidu_category: general
-    categories: [general]
-    engine: baidu
-    shortcut: bd
-    disabled: true
-
-  - name: baidu images
-    baidu_category: images
-    categories: [images]
-    engine: baidu
-    shortcut: bdi
-    disabled: true
-
-  - name: baidu kaifa
-    baidu_category: it
-    categories: [it]
-    engine: baidu
-    shortcut: bdk
-    disabled: true
-
   - name: wikipedia
     engine: wikipedia
     shortcut: wp
+    disabled: false
     # add "list" to the array to get results in the results list
     display_type: ["infobox"]
     categories: [general]
@@ -532,7 +500,7 @@ engines:
   - name: bilibili
     engine: bilibili
     shortcut: bil
-    disabled: true
+    disabled: false
 
   - name: bing
     engine: bing
@@ -550,6 +518,7 @@ engines:
   - name: bing videos
     engine: bing_videos
     shortcut: biv
+    disabled: true
 
   - name: bitbucket
     engine: xpath
@@ -598,24 +567,6 @@ engines:
     shortcut: chef
     # to show premium or plus results too:
     # skip_premium: false
-
-  - name: chinaso news
-    chinaso_category: news
-    engine: chinaso
-    shortcut: chinaso
-    disabled: true
-
-  - name: chinaso images
-    chinaso_category: images
-    engine: chinaso
-    shortcut: chinasoi
-    disabled: true
-
-  - name: chinaso videos
-    chinaso_category: videos
-    engine: chinaso
-    shortcut: chinasov
-    disabled: true
 
   - name: cloudflareai
     engine: cloudflareai
@@ -715,6 +666,7 @@ engines:
     engine: currency_convert
     categories: general
     shortcut: cc
+    disabled: true
 
   - name: deezer
     engine: deezer
@@ -815,32 +767,33 @@ engines:
   - name: duckduckgo
     engine: duckduckgo
     shortcut: ddg
+    disabled: false
 
   - name: duckduckgo images
     engine: duckduckgo_extra
     categories: [images, web]
     ddg_category: images
     shortcut: ddi
-    disabled: true
+    disabled: false
 
   - name: duckduckgo videos
     engine: duckduckgo_extra
     categories: [videos, web]
     ddg_category: videos
     shortcut: ddv
-    disabled: true
+    disabled: false
 
   - name: duckduckgo news
     engine: duckduckgo_extra
     categories: [news, web]
     ddg_category: news
     shortcut: ddn
-    disabled: true
+    disabled: false
 
   - name: duckduckgo weather
     engine: duckduckgo_weather
     shortcut: ddw
-    disabled: true
+    disabled: false
 
   - name: apple maps
     engine: apple_maps
@@ -889,12 +842,12 @@ engines:
     engine: www1x
     shortcut: 1x
     timeout: 3.0
-    disabled: true
+    disabled: false
 
   - name: fdroid
     engine: fdroid
     shortcut: fd
-    disabled: true
+    disabled: false
 
   - name: findthatmeme
     engine: findthatmeme
@@ -1003,6 +956,7 @@ engines:
   - name: google
     engine: google
     shortcut: go
+    disabled: false
     # additional_tests:
     #   android: *test_android
 
@@ -1144,11 +1098,6 @@ engines:
     shortcut: ip
     disabled: true
 
-  - name: iqiyi
-    engine: iqiyi
-    shortcut: iq
-    disabled: true
-
   - name: jisho
     engine: jisho
     shortcut: js
@@ -1198,7 +1147,7 @@ engines:
     content_xpath: //td/a[1][contains(@href,"=author")]/text()
     categories: files
     timeout: 7.0
-    disabled: true
+    disabled: false
     shortcut: lg
     about:
       website: https://libgen.fun/
@@ -1231,6 +1180,7 @@ engines:
   - name: lingva
     engine: lingva
     shortcut: lv
+    disabled: true
     # set lingva instance in url, by default it will use the official instance
     # url: https://lingva.thedaviddelta.com
 
@@ -1348,7 +1298,7 @@ engines:
   - name: nyaa
     engine: nyaa
     shortcut: nt
-    disabled: true
+    disabled: false
 
   - name: mankier
     engine: json_engine
@@ -1420,13 +1370,6 @@ engines:
       require_api_key: false
       results: JSON
 
-  - name: openclipart
-    engine: openclipart
-    shortcut: ocl
-    inactive: true
-    disabled: true
-    timeout: 30
-
   - name: openlibrary
     engine: openlibrary
     shortcut: ol
@@ -1456,7 +1399,7 @@ engines:
     content_xpath: //li[@class="search-result"]//div[@class="search-snippet-info"]//p[@class="search-snippet"]
     categories: files
     timeout: 4.0
-    disabled: true
+    disabled: false
     shortcut: or
     about:
       website: https://openrepos.net/
@@ -1588,7 +1531,7 @@ engines:
     categories: [images, web]
     timeout: 4.0
     shortcut: psimg
-    disabled: true
+    disabled: false
 
   - name: presearch videos
     engine: presearch
@@ -1646,6 +1589,7 @@ engines:
     engine: qwant
     shortcut: qw
     categories: [general, web]
+    disabled: true
     additional_tests:
       rosebud: *test_rosebud
 
@@ -1654,6 +1598,7 @@ engines:
     engine: qwant
     shortcut: qwn
     categories: news
+    disabled: true
     network: qwant
 
   - name: qwant images
@@ -1661,6 +1606,7 @@ engines:
     engine: qwant
     shortcut: qwi
     categories: [images, web]
+    disabled: true
     network: qwant
 
   - name: qwant videos
@@ -1668,6 +1614,7 @@ engines:
     engine: qwant
     shortcut: qwv
     categories: [videos, web]
+    disabled: true
     network: qwant
 
   # - name: library
@@ -1700,8 +1647,7 @@ engines:
     engine: reddit
     shortcut: re
     page_size: 25
-    disabled: true
-
+    
   - name: right dao
     engine: xpath
     paging: true
@@ -1759,26 +1705,6 @@ engines:
   - name: sepiasearch
     engine: sepiasearch
     shortcut: sep
-
-  - name: sogou
-    engine: sogou
-    shortcut: sogou
-    disabled: true
-
-  - name: sogou images
-    engine: sogou_images
-    shortcut: sogoui
-    disabled: true
-
-  - name: sogou videos
-    engine: sogou_videos
-    shortcut: sogouv
-    disabled: true
-
-  - name: sogou wechat
-    engine: sogou_wechat
-    shortcut: sogouw
-    disabled: true
 
   - name: soundcloud
     engine: soundcloud
@@ -1891,7 +1817,7 @@ engines:
     engine: tokyotoshokan
     shortcut: tt
     timeout: 6.0
-    disabled: true
+    disabled: false
 
   - name: solidtorrents
     engine: solidtorrents
@@ -1904,15 +1830,15 @@ engines:
   # For this demo of the sqlite engine download:
   #   https://liste.mediathekview.de/filmliste-v2.db.bz2
   # and unpack into searx/data/filmliste-v2.db
-  # Query to test: "!mediathekview concert"
+  # Query to test: "!demo concert"
   #
-  # - name: mediathekview
+  # - name: demo
   #   engine: sqlite
-  #   shortcut: mediathekview
-  #   categories: [general, videos]
-  #   result_type: MainResult
+  #   shortcut: demo
+  #   categories: general
+  #   result_template: default.html
   #   database: searx/data/filmliste-v2.db
-  #   query_str: >-
+  #   query_str:  >-
   #     SELECT title || ' (' || time(duration, 'unixepoch') || ')' AS title,
   #            COALESCE( NULLIF(url_video_hd,''), NULLIF(url_video_sd,''), url_video) AS url,
   #            description AS content
@@ -1991,7 +1917,7 @@ engines:
     categories: general
     search_type: web
     shortcut: yd
-    disabled: true
+    disabled: false
     inactive: true
 
   - name: yandex images
@@ -1999,7 +1925,7 @@ engines:
     categories: images
     search_type: images
     shortcut: ydi
-    disabled: true
+    disabled: false
     inactive: true
 
   - name: yandex music
@@ -2017,6 +1943,7 @@ engines:
   - name: yahoo news
     engine: yahoo_news
     shortcut: yhn
+    disabled: true
 
   - name: youtube
     shortcut: yt
@@ -2046,7 +1973,7 @@ engines:
     content_query: Snippet
     categories: [general, web]
     shortcut: wib
-    disabled: true
+    disabled: false
     about:
       website: https://wiby.me/
 
@@ -2160,6 +2087,7 @@ engines:
     categories: images
     search_type: images
     number_of_results: 10
+    disabled: true
 
   - name: wikicommons.videos
     engine: wikicommons
@@ -2199,11 +2127,13 @@ engines:
   - name: dictzone
     engine: dictzone
     shortcut: dc
+    disabled: true
 
   - name: mymemory translated
     engine: translated
     shortcut: tl
     timeout: 5.0
+    disabled: true
     # You can use without an API key, but you are limited to 1000 words/day
     # See: https://mymemory.translated.net/doc/usagelimits.php
     # api_key: ''
@@ -2231,7 +2161,7 @@ engines:
   - name: 1337x
     engine: 1337x
     shortcut: 1337x
-    disabled: true
+    disabled: false
 
   - name: duden
     engine: duden
@@ -2256,7 +2186,7 @@ engines:
     shortcut: mjk
     engine: mojeek
     categories: [general, web]
-    disabled: true
+    disabled: false
 
   - name: mojeek images
     shortcut: mjkimg
@@ -2264,7 +2194,7 @@ engines:
     categories: [images, web]
     search_type: images
     paging: false
-    disabled: true
+    disabled: false
 
   - name: mojeek news
     shortcut: mjknews
@@ -2272,7 +2202,7 @@ engines:
     categories: [news, web]
     search_type: news
     paging: false
-    disabled: true
+    disabled: false
 
   - name: moviepilot
     engine: moviepilot
